@@ -1,0 +1,30 @@
+body {
+	min-width: 200px;
+	background: #6fc0e3;
+}
+
+h1 {
+	border-bottom: 1px solid black;
+}
+
+#send_data_form {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#send_data_form input {
+	width: 80%;
+	height: 30px;
+
+	margin-top: 4px;
+
+	border: 1px solid #a2a9b1;
+	border-radius: 2px;
+}
+
+#data_good_div > div > p {
+	display: inline;
+}

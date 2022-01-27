@@ -5,5 +5,29 @@
 	</head>
 	<body>
 		<h1>Wikiread</h1>
+		<div id="need_data_div">
+			Fill out the following to access the Wikipedia page ranker.
+
+			<form id="send_data_form">
+				<input id="age_data" placeholder="age">
+				<input id="gender_data" placeholder="gender">
+				<input id="ethnic_data" placeholder="ethnicity">
+				<input id="institution_level" placeholder="schooling">
+				<input id="submit" value="Submit">
+			</form>
+		</div>
+		<div id="data_good_div">
+			All your data is set, and Wikipedia page ranker is ready!
+
+			<div>Age: <p id="age_display"></p></div>
+			<div>Gender: <p id="gender_display"></p></div>
+			<div>Ethnicity: <p id="ethnic_display"></p></div>
+			<div>Schooling: <p id="institution_display"></p></div>
+
+			<div>You have viewed <p id="wiki_documents_display"></p> Wiki pages</div>
+			<div>You have voted on <p id="vote_documents_display"></p> Wiki pages</div>
+		</div>
+
+		<script src="script_popup.js"></script>
 	</body>
 </html>

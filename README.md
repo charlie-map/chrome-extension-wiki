@@ -5,6 +5,8 @@ This project creates a simple web browser extension on Google Chrome. It display
 
 ![Wikipedia interest image](https://overfload.nyc3.cdn.digitaloceanspaces.com/6bea1680-c128-498d-af4e-482fc9ba0b83)
 
+When hovered, each button thematically colors based on which emotion is labelled on that button (emotions between 1 (hated the page) and 5 (loved the page))
+
 # Next steps:
 - Creating a system to confirm consent from users to use data from wikipedia
 - Access and store data on (possibly) their age, gender, race, and current level of education

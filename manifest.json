@@ -3,15 +3,15 @@
 	"description": "Read wikipedia pages and rank them to help support data collection for furthering education in Information Retrieval.",
 	"version": "1.0",
 	"manifest_version": 3,
-	"permissions": ["activeTab", "scripting"],
+	"permissions": ["storage", "activeTab", "scripting"],
 	"background": {
-		"service_worked": "background.js"
+		"service_worker": "background.js"
 	},
 	"content_scripts": [
 		{
 			"matches": ["https://en.wikipedia.org/wiki/*"],
 			"js": ["content.js"],
-			"css": ["style.css"],
+			"css": ["css/style.css"],
 			"run_at": "document_end"
 		}	
 	],
