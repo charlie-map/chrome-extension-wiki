@@ -3,7 +3,7 @@
 
 This project creates a simple web browser extension on Google Chrome. It displays a simple UI that users can click to rank the wikipedia document:
 
-![Wikipedia interest image](https://github.com/charlie-map/chrome-extension/images/wikiinterest.png)
+![Wikipedia interest image](https://overfload.nyc3.cdn.digitaloceanspaces.com/6bea1680-c128-498d-af4e-482fc9ba0b83)
 
 # Next steps:
 - Creating a system to confirm consent from users to use data from wikipedia
