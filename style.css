@@ -1,0 +1,53 @@
+#user_decision_tag {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	z-index: 7;
+	border-radius: 3px;
+	background: #6fc0e3;
+}
+
+#user_decision_tag h2 {
+	font-size: 20px;
+	font-weight: 2px;
+	width: 98%;
+}
+
+#user_decision_tag div {
+	width: 95%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#user_decision_tag .user_decision_button {
+	width: 18%;
+	height: 40px;
+	background: white;
+	border: 1px solid #160e5e;
+	font-size: 30px;
+
+	transition: background 0.2s;
+}
+
+#user_decision_tag .user_decision_button[level="1"]:hover {
+	background: #E02B37;
+}
+
+#user_decision_tag .user_decision_button[level="2"]:hover {
+	background: #DB7835;
+}
+
+#user_decision_tag .user_decision_button[level="3"]:hover {
+	background: #DBCD3F;
+}
+
+#user_decision_tag .user_decision_button[level="4"]:hover {
+	background: #56D4DB;
+}
+
+#user_decision_tag .user_decision_button[level="5"]:hover {
+	background: #4BDB6E;
+}

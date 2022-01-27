@@ -1,0 +1,31 @@
+{
+	"name": "Wikiread",
+	"description": "Read wikipedia pages and rank them to help support data collection for furthering education in Information Retrieval.",
+	"version": "1.0",
+	"manifest_version": 3,
+	"permissions": ["activeTab", "scripting"],
+	"background": {
+		"service_worked": "background.js"
+	},
+	"content_scripts": [
+		{
+			"matches": ["https://en.wikipedia.org/wiki/*"],
+			"js": ["content.js"],
+			"css": ["style.css"],
+			"run_at": "document_end"
+		}	
+	],
+	"action": {
+		"default_popup": "popup.html",
+		"default_icon": {
+			"128": "/images/question_markSmall.png"
+		}
+	},
+	"icons": {
+		"128": "/images/question_markSmall.png"
+	},
+	"content_security_policy": {
+  "extension_pages": "script-src 'self'; object-src 'self'"
+}
+
+}
