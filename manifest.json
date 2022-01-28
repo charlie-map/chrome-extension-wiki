@@ -25,7 +25,6 @@
 		"128": "/images/question_markSmall.png"
 	},
 	"content_security_policy": {
-  "extension_pages": "script-src 'self'; object-src 'self'"
-}
-
+	  "extension_pages": "script-src 'self'; https://ajax.googleapis.com/*; object-src 'self'"
+	}
 }

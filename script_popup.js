@@ -26,9 +26,9 @@ chrome.storage.sync.get(["response_data"], async (result) => {
 		// set data
 		document.getElementById("age_display").innerHTML = result.age_data;
 		document.getElementById("gender_display").innerHTML = result.gender_data ? result.gender_data : "Not given";
-		document.getElementById("ethnic_display").innerHTML = result.ethnic_data ? result.ethnic_data : "Not given";
+		document.getElementById("ethnic_display").innerHTML = result.race_data ? result.race_data : "Not given";
 		document.getElementById("institution_display").innerHTML = institution_reverse[result.institution_level];
-	
+
 		let doc_results = await pull_document_data();
 
 		document.getElementById("wiki_documents_display").innerHTML = doc_results[0];
@@ -89,13 +89,31 @@ document.getElementById("submit").addEventListener("click", function(event) {
 
 	results_data.age_data = parseInt(document.getElementById("age_data").value, 10);
 	results_data.gender_data = document.getElementById("gender_data").value;
-	results_data.ethnic_data = document.getElementById("race_data").value;
+	results_data.race_data = document.getElementById("race_data").value;
 	results_data.institution_level = document.getElementById("institution_level").value;
 
-	results_data.institution_level = redefine_institution(results_data.institution_level);	
+	results_data.institution_level = redefine_institution(results_data.institution_level);
 
 	if (validate_data(results_data))
-		chrome.storage.sync.set({ "response_data": results_data }, function () {
-			window.close();
+		chrome.storage.sync.set({
+			"response_data": results_data
+		}, function() {
+
+			// reach to server to send the data
+			chrome.storage.sync.get(["curr_backend_url"], (result) => {
+				
+				let send_request = new XMLHttpRequest();
+				send_request.open("POST", result);
+
+				send_request.onreadystatechange(() => {
+					if (send_request.readyState == 4) {
+						console.log(send_request.responseText);
+
+						window.close();
+					}
+				});
+
+				send_request.send(results_data);
+			});
 		});
 });
