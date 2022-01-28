@@ -6,23 +6,45 @@
 	<body>
 		<h1>Wikiread</h1>
 		<div id="need_data_div">
-			Fill out the following to access the Wikipedia page ranker.
+			<p class="top_noti">Fill out the following to access the Wikipedia page ranker.</p>
 
 			<form id="send_data_form">
-				<input id="age_data" placeholder="age">
-				<input id="gender_data" placeholder="gender">
-				<input id="ethnic_data" placeholder="ethnicity">
-				<input id="institution_level" placeholder="schooling">
+				<input id="age_data" placeholder="Age">
+				<select id="gender_data">
+					<option value="" disabled selected>Pronouns</option>
+					<option value="she/her/hers">She/Her/Hers</option>
+					<option value="he/his">He/His</option>
+					<option value="they/their/them">They/Their/Them</option>
+					<option value="none">Choose not to disclose</option>
+				</select>
+				<select id="race_data">
+					<option value="" disabled selected>Which of these best describes you?</option>
+					<option value="black">Black or African American</option>
+					<option value="indian">American Indian or Alaska Native</option>
+					<option value="asian">Asian</option>
+					<option value="hawaiin">Native Hawaiian or Other Pacific Islander</option>
+					<option value="white">White</option>
+					<option value="none">Choose not to disclose</option>
+				</select>
+				<select id="institution_level">
+					<option value="" disabled selected>What level of school are you attending?</option>
+					<option value="primary">Middle School (7-8)</option>
+					<option value="secondary">High School (9-12)</option>
+					<option value="undergraduate">Undergraduate</option>
+					<option value="graduate">Graduate</option>
+					<option value="postgraduate">Postgraduate</option>
+					<option value="nonschool">Not currently enrolled</option>
+				</select>
 				<input id="submit" value="Submit">
 			</form>
 		</div>
 		<div id="data_good_div">
-			All your data is set, and Wikipedia page ranker is ready!
+			<p class="top_noti">All your data is set, and Wikipedia page ranker is ready!</p>
 
 			<div>Age: <p id="age_display"></p></div>
 			<div>Gender: <p id="gender_display"></p></div>
-			<div>Ethnicity: <p id="ethnic_display"></p></div>
-			<div>Schooling: <p id="institution_display"></p></div>
+			<div>Race: <p id="ethnic_display"></p></div>
+			<div style="margin-bottom: 5px;">Schooling: <p id="institution_display"></p></div>
 
 			<div>You have viewed <p id="wiki_documents_display"></p> Wiki pages</div>
 			<div>You have voted on <p id="vote_documents_display"></p> Wiki pages</div>

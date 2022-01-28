@@ -1,10 +1,11 @@
 body {
-	min-width: 200px;
+	min-width: 280px;
 	background: #6fc0e3;
 }
 
 h1 {
 	border-bottom: 1px solid black;
+	margin-bottom: 4px;
 }
 
 #send_data_form {
@@ -15,7 +16,15 @@ h1 {
 	align-items: center;
 }
 
-#send_data_form input {
+#submit {
+
+}
+
+#submit:hover {
+	cursor: pointer;
+}
+
+#send_data_form input, #send_data_form select {
 	width: 80%;
 	height: 30px;
 
@@ -25,6 +34,30 @@ h1 {
 	border-radius: 2px;
 }
 
+#data_good_div > div {
+	height: 30px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #56D4DB;
+	padding-left: 4px;
+
+	font-size: 14px;
+}
+
 #data_good_div > div > p {
 	display: inline;
+	height: 30px;
+	padding-right: 4px;
+	margin-left: 4px;
+	background: #cbf3f5;
+
+	width: 90%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.top_noti {
+	margin-top: 4px;
 }

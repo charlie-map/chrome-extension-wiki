@@ -45,7 +45,7 @@ function add_decision_div() {
 					height: ${head_height - tag_height}px;
 					left: ${left_panel_width + 10}px;
 					">
-			<h2>Were you interested in ${wiki_page_name}?</h2>
+			<h2>Did you enjoy the article: <div style="display: inline; font-style: italic;">${wiki_page_name}</div>?</h2>
 			<div>
 				${butt_arr[4]}
 				${butt_arr[3]}
@@ -141,7 +141,9 @@ function resize_div() {
 	add_decision_div();
 }
 
-window.onload = add_div;
+window.onload = function() {
+	add_div();
+};
 window.onresize = resize_div;
 
 function send_response() {
