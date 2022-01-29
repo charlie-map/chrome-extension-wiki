@@ -3,9 +3,18 @@ body {
 	background: #6fc0e3;
 }
 
-h1 {
+#header_tag {
 	border-bottom: 1px solid black;
 	margin-bottom: 4px;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#header_tag h1 {
+	margin-top: 7px;
+	margin-bottom: 5px;
 }
 
 #send_data_form {
@@ -16,10 +25,6 @@ h1 {
 	align-items: center;
 }
 
-#submit {
-
-}
-
 #submit:hover {
 	cursor: pointer;
 }
@@ -27,11 +32,18 @@ h1 {
 #send_data_form input, #send_data_form select {
 	width: 80%;
 	height: 30px;
+	color: black;
 
 	margin-top: 4px;
+	background: white;
 
 	border: 1px solid #a2a9b1;
 	border-radius: 2px;
+}
+
+#age_data {
+	padding-left: 4px;
+	width: calc(80% - 8px) !important;
 }
 
 #data_good_div > div {
@@ -61,3 +73,82 @@ h1 {
 .top_noti {
 	margin-top: 4px;
 }
+
+#change_demographics, #submit {
+	height: 30px;
+	width: 100%;
+
+	border: 1px solid #160e5e;
+	background: white;
+
+	margin-bottom: 4px;
+}
+
+#change_demographics:hover, #submit:hover {
+	background: #bcc5d4;
+	cursor: pointer;
+}
+
+#missing_data {
+	display: none;
+}
+
+#missing_data.show {
+	display: block;
+}
+
+#missing_data.warn {
+	animation: 0.6s warning;
+}
+
+@keyframes warning {
+	from {
+		background: #e37878;
+	}
+
+	to {
+		background: transparent;
+	}
+}
+
+.wiki_hard_data {
+	width: 70% !important;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+/* From Ana Tudor Free Frontend */
+#close {
+	overflow: hidden;
+	position: relative;
+	border: none;
+	padding: 0;
+	width: 2em; height: 2em;
+	border-radius: 50%;
+	background: transparent;
+	color: #160e5e;
+	font: inherit;
+	text-indent: 100%;
+	cursor: pointer;
+}
+
+#close:focus {
+	outline: solid 0 transparent;
+	box-shadow: 0 0 0 2px #8ed0f9
+}
+	
+#close:hover {
+	background: rgba(5, 247, 212, .3)
+}
+
+#close:before, #close:after {
+	position: absolute;
+	top: 15%; left: calc(50% - .0625em);
+	width: .125em; height: 70%;
+	border-radius: .125em;
+	transform: rotate(45deg);
+	background: currentcolor;
+	content: ''
+}
+	
+#close:after { transform: rotate(-45deg); }

@@ -4,12 +4,18 @@
 		<link rel="stylesheet" href="/css/style_popup.css">
 	</head>
 	<body>
-		<h1>Wikiread</h1>
+		<div id="header_tag">
+			<h1>Wikiread</h1>
+			<button id='close'>close</button>
+		</div>
+
 		<div id="need_data_div">
-			<p class="top_noti">Fill out the following to access the Wikipedia page ranker.</p>
+			<p class="top_noti">Fill out the following to access the Wikipedia page ranker. You must be 13 years or older to use this software</p>
+
+			<div id="missing_data">Please fill out at least age and level of school!</div>
 
 			<form id="send_data_form">
-				<input id="age_data" placeholder="Age">
+				<input id="age_data" placeholder="Age (13 or older)">
 				<select id="gender_data">
 					<option value="" disabled selected>Pronouns</option>
 					<option value="she/her/hers">She/Her/Hers</option>
@@ -26,7 +32,7 @@
 					<option value="white">White</option>
 					<option value="none">Choose not to disclose</option>
 				</select>
-				<select id="institution_level">
+				<select id="institution_level" style="margin-bottom: 4px;">
 					<option value="" disabled selected>What level of school are you attending?</option>
 					<option value="primary">Middle School (7-8)</option>
 					<option value="secondary">High School (9-12)</option>
@@ -35,20 +41,22 @@
 					<option value="postgraduate">Postgraduate</option>
 					<option value="nonschool">Not currently enrolled</option>
 				</select>
-				<button id="submit">Submit</button>
+				<button id="submit" style="width: 80%;">Submit</button>
 			</form>
 		</div>
 		<div id="data_good_div">
 			<p class="top_noti">All your data is set, and Wikipedia page ranker is ready!</p>
 
 			<div>Age: <p id="age_display"></p></div>
-			<div>Gender: <p id="gender_display"></p></div>
-			<div>Race: <p id="ethnic_display"></p></div>
+			<div>Pronouns: <p id="gender_display"></p></div>
+			<div>Race / Ethnicity: <p id="ethnic_display"></p></div>
 			<div style="margin-bottom: 5px;">Schooling: <p id="institution_display"></p></div>
 
-			<div>You have viewed <p id="wiki_documents_display"></p> Wiki pages</div>
-			<div>You have read for <p id="wiki_read_amount_display"></p> hours</div>
-			<div>You have voted on <p id="vote_documents_display"></p> Wiki pages</div>
+			<button id="change_demographics">Change data</button>
+
+			<div>Viewed <p class="wiki_hard_data" id="wiki_documents_display"></p> Wiki pages</div>
+			<div>Read for <p class="wiki_hard_data" id="wiki_read_amount_display"></p> hours</div>
+			<div>Voted on <p class="wiki_hard_data" id="vote_documents_display"></p> Wiki pages</div>
 		</div>
 
 		<script src="script_popup.js"></script>

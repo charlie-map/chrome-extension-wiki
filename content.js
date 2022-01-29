@@ -214,7 +214,8 @@ function focus_count() {
 				add_time: 48
 			};
 
-			send_request("POST", result.curr_backend_url + "focus_time", data);
+			if (data.user_unique_id && data.page_unique_id)
+				send_request("POST", result.curr_backend_url + "focus_time", data);
 		});
 	});
 

@@ -33,21 +33,26 @@
 }
 
 .user_decision_tag .user_decision_button[level="1"]:hover {
+	cursor: pointer;
 	background: #E02B37;
 }
 
 .user_decision_tag .user_decision_button[level="2"]:hover {
+	cursor: pointer;
 	background: #DB7835;
 }
 
 .user_decision_tag .user_decision_button[level="3"]:hover {
+	cursor: pointer;
 	background: #DBCD3F;
 }
 
 .user_decision_tag .user_decision_button[level="4"]:hover {
+	cursor: pointer;
 	background: #56D4DB;
 }
 
 .user_decision_tag .user_decision_button[level="5"]:hover {
+	cursor: pointer;
 	background: #4BDB6E;
 }
