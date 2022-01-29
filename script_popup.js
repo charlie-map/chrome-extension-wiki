@@ -2,14 +2,21 @@ function pull_document_data() {
 	return new Promise((resolve, reject) => {
 		let response = [];
 
-		chrome.storage.sync.get(["documents_read"], resultRead => {
-			response[0] = resultRead.documents_read;
+		chrome.storage.sync.get(["unique_id", "curr_backend_url"], (id) => {
+			let send_request = new XMLHttpRequest();
+			send_request.open("POST", id.curr_backend_url + "pull_view_data", true);
+			send_request.setRequestHeader('Content-Type', 'application/json');
 
-			chrome.storage.sync.get(["document_votes"], resultVote => {
-				response[1] = resultVote.document_votes;
+			send_request.addEventListener("load", function() {
+				let status = this.status;
 
-				resolve(response);
+				if (status == 0 || status == 200) {
+
+					resolve(JSON.parse(this.responseText));
+				}
 			});
+
+			send_request.send(JSON.stringify({ user_unique_id: id.unique_id }));
 		});
 	});
 }
@@ -29,10 +36,10 @@ chrome.storage.sync.get(["response_data"], async (result) => {
 		document.getElementById("ethnic_display").innerHTML = result.race_data ? result.race_data : "Not given";
 		document.getElementById("institution_display").innerHTML = institution_reverse[result.institution_level];
 
-		let doc_results = await pull_document_data();
+		let doc_results = (await pull_document_data())[0];
 
-		document.getElementById("wiki_documents_display").innerHTML = doc_results[0];
-		document.getElementById("vote_documents_display").innerHTML = doc_results[1];
+		document.getElementById("wiki_documents_display").innerHTML = doc_results.viewed_page;
+		document.getElementById("vote_documents_display").innerHTML = doc_results.voted_page;
 	} else {
 		document.getElementById("need_data_div").style.display = "block";
 	}
@@ -101,19 +108,24 @@ document.getElementById("submit").addEventListener("click", function(event) {
 
 			// reach to server to send the data
 			chrome.storage.sync.get(["curr_backend_url"], (result) => {
-				
+
 				let send_request = new XMLHttpRequest();
-				send_request.open("POST", result);
+				send_request.open("POST", result.curr_backend_url + "signup_user", true);
+				send_request.setRequestHeader('Content-Type', 'application/json');
 
-				send_request.onreadystatechange(() => {
-					if (send_request.readyState == 4) {
-						console.log(send_request.responseText);
+				send_request.addEventListener("load", function() {
+					let status = this.status;
 
-						window.close();
+					if (status == 0 || status == 200) {
+						chrome.storage.sync.set({
+							unique_id: this.responseText
+						}, () => {
+							window.close();
+						});
 					}
 				});
 
-				send_request.send(results_data);
+				send_request.send(JSON.stringify(results_data));
 			});
 		});
 });

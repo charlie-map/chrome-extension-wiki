@@ -3,7 +3,7 @@
 	"description": "Read wikipedia pages and rank them to help support data collection for furthering education in Information Retrieval.",
 	"version": "1.0",
 	"manifest_version": 3,
-	"permissions": ["storage", "activeTab", "scripting"],
+	"permissions": ["storage", "activeTab", "scripting", "tabs"],
 	"background": {
 		"service_worker": "background.js"
 	},
@@ -25,6 +25,7 @@
 		"128": "/images/question_markSmall.png"
 	},
 	"content_security_policy": {
-	  "extension_pages": "script-src 'self'; https://ajax.googleapis.com/*; object-src 'self'"
-	}
+	  "extension_pages": "script-src 'self'; object-src 'self'"
+	},
+	"host_permissions": ["https://192.168.1.132:4224/*"]
 }

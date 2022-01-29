@@ -111,12 +111,17 @@ function add_error_div() {
 	xml_site_wiki_tag.innerHTML = div_error + xml_site_wiki_tag.innerHTML;
 }
 
-let xml_body;
 let curr_validation_status = 1;
+let tab_url;
+let wiki_unique;
 
-function add_div(){
+let COUNT_TIME = 1;
+
+function add_div() {
 	chrome.storage.sync.get(["response_data"], function(result) {
-		console.log("value is: ", result.response_data);
+
+		tab_url = window.location.href;
+		chrome.storage.sync.set({ "curr_tab": tab_url });
 
 		if (!validate_data(result.response_data)) {
 			curr_validation_status = 0;
@@ -127,8 +132,24 @@ function add_div(){
 
 		add_decision_div();
 
-		xml_body = document.getElementById("bodyContent");
-		console.log(xml_body);
+		let results_data = {};
+
+		results_data.page_title = document.getElementById("firstHeading").innerHTML;
+		results_data.wiki_code = get_wiki_code(document.getElementById("t-wikibase").getElementsByTagName("a")[0]);
+		results_data.xml_body = document.getElementById("bodyContent").innerHTML;
+
+		chrome.storage.sync.get(["unique_id", "curr_backend_url"], (result) => {
+
+			results_data.unique_id = result.unique_id;
+
+			let send_request = new XMLHttpRequest();
+			send_request.open("POST", result.curr_backend_url + "open_page", true);
+			send_request.setRequestHeader('Content-Type', 'application/json');
+
+			send_request.send(JSON.stringify(results_data));
+
+			wiki_unique = results_data.wiki_code;
+		});
 	});
 }
 
@@ -146,6 +167,14 @@ window.onload = function() {
 };
 window.onresize = resize_div;
 
+function get_wiki_code(a_tag) {
+	// grab url
+	let full_url = a_tag.getAttribute("href").split("/");
+
+	// search for the wiki id
+	return full_url[full_url.length - 1];
+}
+
 function send_response() {
 	// pull the level from the button and send the xml_body
 	let level = this.getAttribute("level");
@@ -161,6 +190,37 @@ function send_response() {
 	document.getElementById("right-navigation").style["margin-top"] = "2.5em";
 	document.getElementById("left-navigation").style["margin-top"] = "2.5em";
 }
+
+function focus_count() {
+	chrome.storage.sync.get(["curr_tab"], (check_global) => {
+		console.log("compare tags", tab_url, check_global.curr_tab);
+
+		COUNT_TIME = tab_url == check_global.curr_tab;
+
+		console.log(COUNT_TIME);
+
+		if (!COUNT_TIME)
+			return;
+
+		chrome.storage.sync.get(["unique_id", "curr_backend_url"], (result) => {
+
+			let data = {
+				user_unique_id: result.unique_id,
+				page_unique_id: wiki_unique,
+
+				add_time: 48
+			};
+
+			let send_request = new XMLHttpRequest();
+			send_request.open("POST", result.curr_backend_url + "focus_time", true);
+			send_request.setRequestHeader('Content-Type', 'application/json');
+
+			send_request.send(JSON.stringify(data));
+		});
+	});
+}
+
+setInterval(focus_count, 48000);
 
 let validaters = {
 	age_check: function(test_age) {
