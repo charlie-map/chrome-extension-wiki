@@ -142,11 +142,7 @@ function add_div() {
 
 			results_data.unique_id = result.unique_id;
 
-			let send_request = new XMLHttpRequest();
-			send_request.open("POST", result.curr_backend_url + "open_page", true);
-			send_request.setRequestHeader('Content-Type', 'application/json');
-
-			send_request.send(JSON.stringify(results_data));
+			send_request("POST", result.curr_backend_url + "open_page", results_data);
 
 			wiki_unique = results_data.wiki_code;
 		});
@@ -180,24 +176,31 @@ function send_response() {
 	let level = this.getAttribute("level");
 	showing_div = 0;
 
-	console.log("level", level);
-
 	// remove the message from the page
-	document.getElementById("user_decision_tag").remove();
+	document.getElementsByClassName("user_decision_tag")[0].remove();
 
 	// change size of header
 	document.getElementById("mw-page-base").style.height = "5em";
 	document.getElementById("right-navigation").style["margin-top"] = "2.5em";
 	document.getElementById("left-navigation").style["margin-top"] = "2.5em";
+
+	// send level data with the user_unique_id and the page_unique_id
+	chrome.storage.sync.get(["unique_id", "curr_backend_url"], (chrome_data) => {
+
+		let data = {
+			user_unique_id: chrome_data.unique_id,
+			page_unique_id: wiki_unique,
+			level: level
+		};
+
+		send_request("POST", chrome_data.curr_backend_url + "vote_page", data);
+	});
 }
 
 function focus_count() {
 	chrome.storage.sync.get(["curr_tab"], (check_global) => {
-		console.log("compare tags", tab_url, check_global.curr_tab);
 
 		COUNT_TIME = tab_url == check_global.curr_tab;
-
-		console.log(COUNT_TIME);
 
 		if (!COUNT_TIME)
 			return;
@@ -211,13 +214,27 @@ function focus_count() {
 				add_time: 48
 			};
 
-			let send_request = new XMLHttpRequest();
-			send_request.open("POST", result.curr_backend_url + "focus_time", true);
-			send_request.setRequestHeader('Content-Type', 'application/json');
-
-			send_request.send(JSON.stringify(data));
+			send_request("POST", result.curr_backend_url + "focus_time", data);
 		});
 	});
+
+	if (!curr_validation_status) { // keep checking for data updates
+		chrome.storage.sync.get(["response_data"], function(result) {
+
+			if (!validate_data(result.response_data)) {
+				curr_validation_status = 0;
+
+				add_error_div();
+				return;
+			}
+
+			add_decision_div();
+		});
+	}
+}
+
+function check_response_data() {
+
 }
 
 setInterval(focus_count, 48000);
@@ -242,4 +259,18 @@ function validate_data(subject) {
 		return 1;
 
 	return 0;
+}
+
+function send_request(type, url, data) {
+	return new Promise((resolve, reject) => {
+		let send_request = new XMLHttpRequest();
+		send_request.open(type, url, true);
+		send_request.setRequestHeader('Content-Type', 'application/json');
+
+		send_request.onload = function(response) {
+			resolve(response);
+		}
+
+		send_request.send(JSON.stringify(data));
+	});
 }

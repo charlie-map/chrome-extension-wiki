@@ -37,8 +37,10 @@ chrome.storage.sync.get(["response_data"], async (result) => {
 		document.getElementById("institution_display").innerHTML = institution_reverse[result.institution_level];
 
 		let doc_results = (await pull_document_data())[0];
+		console.log(doc_results);
 
 		document.getElementById("wiki_documents_display").innerHTML = doc_results.viewed_page;
+		document.getElementById("wiki_read_amount_display").innerHTML = doc_results.total_time;
 		document.getElementById("vote_documents_display").innerHTML = doc_results.voted_page;
 	} else {
 		document.getElementById("need_data_div").style.display = "block";
