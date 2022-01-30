@@ -23,6 +23,15 @@ function pull_document_data() {
 	});
 }
 
+let race_reverse = {
+	"black": "Black or African American",
+	"indian": "American Indian or Alaska Native",
+	"asian": "Asian",
+	"hawaiian": "Native Hawaiian or Other Pacific Islander",
+	"white": "White",
+	"none": "Not disclosed"
+}
+
 chrome.storage.sync.get(["response_data"], async (result) => {
 	result = result.response_data;
 
@@ -35,7 +44,7 @@ chrome.storage.sync.get(["response_data"], async (result) => {
 		// set data
 		document.getElementById("age_display").innerHTML = result.age_data;
 		document.getElementById("gender_display").innerHTML = result.gender_data ? result.gender_data : "Not given";
-		document.getElementById("ethnic_display").innerHTML = result.race_data ? result.race_data : "Not given";
+		document.getElementById("ethnic_display").innerHTML = result.race_data ? race_reverse[result.race_data] : "Not given";
 		document.getElementById("institution_display").innerHTML = institution_reverse[result.institution_level];
 
 		let doc_results = (await pull_document_data())[0];
@@ -46,6 +55,14 @@ chrome.storage.sync.get(["response_data"], async (result) => {
 	} else {
 		document.getElementById("need_data_div").style.display = "block";
 	}
+
+	chrome.storage.sync.get(["curr_backend_url"], (url) => {
+		document.getElementById("privacy_policy_link").setAttribute("href", url.curr_backend_url + "privacy-policy");
+	});
+});
+
+document.getElementById("privacy_policy").addEventListener("click", function() {
+	window.open(document.getElementById("privacy_policy_link").getAttribute("href"), '_blank');
 });
 
 let changing_demographics = 0;

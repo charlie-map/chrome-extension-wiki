@@ -65,6 +65,7 @@ body {
 	background: #cbf3f5;
 
 	width: 90%;
+	text-align: center;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -112,7 +113,7 @@ body {
 }
 
 .wiki_hard_data {
-	width: 70% !important;
+	width: 45% !important;
 	padding-left: 4px;
 	padding-right: 4px;
 }
@@ -152,3 +153,18 @@ body {
 }
 	
 #close:after { transform: rotate(-45deg); }
+
+#privacy_policy {
+	margin-top: 6px;
+	width: 50%;
+
+	height: 25px;
+
+	background: white;
+	border: 1px solid #160e5e;
+}
+
+#privacy_policy:hover {
+	cursor: pointer;
+	background: #bcc5d4;
+}
