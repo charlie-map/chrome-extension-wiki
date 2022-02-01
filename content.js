@@ -159,7 +159,9 @@ function resize_div() {
 }
 
 window.onload = function() {
-	add_div();
+	chrome.storage.sync.set({ curr_tab: window.href }, () => {
+		add_div();
+	});
 };
 window.onresize = resize_div;
 
@@ -232,10 +234,6 @@ function focus_count() {
 			add_decision_div();
 		});
 	}
-}
-
-function check_response_data() {
-
 }
 
 setInterval(focus_count, 48000);

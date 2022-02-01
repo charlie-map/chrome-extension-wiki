@@ -10,12 +10,15 @@
 		</div>
 
 		<div id="need_data_div">
-			<p class="top_noti">Fill out the following to access the Wikipedia page ranker. You must be 13 years or older to use this software</p>
+			<p class="top_noti">Fill out the following to access the Wikipedia page ranker. You must be 13 years or older to use this software. By using this software, you agree to the privacy policy linked below.</p>
 
-			<div id="missing_data">Please fill out at least age and level of school!</div>
+			<div id="missing_data"><p style="display: inline; color: red; font-size: 16px;">*</p>Please fill out at least age and level of school!</div>
 
 			<form id="send_data_form">
-				<input id="age_data" placeholder="Age (13 or older)">
+				<div class="required">
+					*
+					<input id="age_data" placeholder="Age (13 or older)">
+				</div>
 				<select id="gender_data">
 					<option value="" disabled selected>Pronouns</option>
 					<option value="she/her/hers">She/Her/Hers</option>
@@ -32,15 +35,18 @@
 					<option value="white">White</option>
 					<option value="none">Choose not to disclose</option>
 				</select>
-				<select id="institution_level" style="margin-bottom: 4px;">
-					<option value="" disabled selected>What level of school are you attending?</option>
-					<option value="primary">Middle School (7-8)</option>
-					<option value="secondary">High School (9-12)</option>
-					<option value="undergraduate">Undergraduate</option>
-					<option value="graduate">Graduate</option>
-					<option value="postgraduate">Postgraduate</option>
-					<option value="nonschool">Not currently enrolled</option>
-				</select>
+				<div class="required">
+					*
+					<select id="institution_level" style="margin-bottom: 4px;">
+						<option value="" disabled selected>What level of school are you attending?</option>
+						<option value="primary">Middle School (7-8)</option>
+						<option value="secondary">High School (9-12)</option>
+						<option value="undergraduate">Undergraduate</option>
+						<option value="graduate">Graduate</option>
+						<option value="postgraduate">Postgraduate</option>
+						<option value="nonschool">Not currently enrolled</option>
+					</select>
+				</div>
 				<button id="submit" style="width: 80%;">Submit</button>
 			</form>
 		</div>

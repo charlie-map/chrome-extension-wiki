@@ -159,9 +159,9 @@ document.getElementById("submit").addEventListener("click", function(event) {
 	results_data.institution_level = document.getElementById("institution_level").value;
 
 	let miss_data_elem = document.getElementById("missing_data");
-	let insert_miss_data_text = (results_data.age_data == NaN || !results_data.institution_level.length) ?
-		"Please fill out at least age and level of school!" : results_data.age_data < 13 ?
-		"You must be 13 or older to use Wikiread" : "";
+	let insert_miss_data_text = (isNaN(results_data.age_data) || !results_data.institution_level.length) ?
+		`<p style="display: inline; color: red; font-size: 16px;">*</p>Please fill out at least age and level of school!` : results_data.age_data < 13 ?
+		`<p style="display: inline; color: red; font-size: 16px;">*</p>You must be 13 or older to use Wikiread` : "";
 
 	if (insert_miss_data_text.length) {
 		miss_data_elem.innerHTML = insert_miss_data_text;

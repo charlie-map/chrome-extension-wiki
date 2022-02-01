@@ -1,5 +1,5 @@
 body {
-	min-width: 280px;
+	min-width: 290px;
 	background: #6fc0e3;
 }
 
@@ -43,7 +43,8 @@ body {
 
 #age_data {
 	padding-left: 4px;
-	width: calc(80% - 8px) !important;
+	width: calc(100% - 8px) !important;
+	color: black;
 }
 
 #data_good_div > div {
@@ -92,6 +93,7 @@ body {
 
 #missing_data {
 	display: none;
+	border-radius: 4px;
 }
 
 #missing_data.show {
@@ -167,4 +169,19 @@ body {
 #privacy_policy:hover {
 	cursor: pointer;
 	background: #bcc5d4;
+}
+
+.required {
+	width: calc(80% + 10px);
+	padding-right: 10px;
+	display: flex;
+	justify-content: right;
+	align-items: center;
+
+	font-size: 20px;
+	color: red;
+}
+
+#institution_level {
+	width: 100% !important;
 }

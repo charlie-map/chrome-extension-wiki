@@ -3,7 +3,7 @@
 	"description": "Read wikipedia pages and rank them to help support data collection for furthering education in Information Retrieval.",
 	"version": "1.0",
 	"manifest_version": 3,
-	"permissions": ["storage", "activeTab", "scripting", "tabs"],
+	"permissions": ["storage", "tabs"],
 	"background": {
 		"service_worker": "background.js"
 	},
