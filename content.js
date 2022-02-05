@@ -245,8 +245,8 @@ let validaters = {
 
 		return 0;
 	},
-	insitution_check: function(test_institution) {
-		if (typeof test_institution == "number" && test_institution >= 0 && test_institution <= 3)
+	institution_check: function(test_institution) {
+		if (typeof test_institution == "number" && test_institution >= 0 && test_institution <= 5)
 			return 1;
 
 		return 0;
@@ -254,7 +254,7 @@ let validaters = {
 }
 
 function validate_data(subject) {
-	if (validaters.age_check(subject.age_data) && validaters.insitution_check(subject.institution_level))
+	if (validaters.age_check(subject.age_data) && validaters.institution_check(subject.institution_level))
 		return 1;
 
 	return 0;
