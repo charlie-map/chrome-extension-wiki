@@ -2,7 +2,7 @@ function pull_document_data() {
 	return new Promise((resolve, reject) => {
 		let response = [];
 
-		chrome.storage.sync.get(["unique_id", "curr_backend_url"], (id) => {
+		browser.storage.sync.get(["unique_id", "curr_backend_url"], (id) => {
 			let send_request = new XMLHttpRequest();
 			send_request.open("POST", id.curr_backend_url + "pull_view_data", true);
 			send_request.setRequestHeader('Content-Type', 'application/json');
@@ -32,7 +32,7 @@ let race_reverse = {
 	"none": "Not disclosed"
 }
 
-chrome.storage.sync.get(["response_data"], async (result) => {
+browser.storage.sync.get(["response_data"], async (result) => {
 	result = result.response_data;
 
 	document.getElementById("data_good_div").style.display = "none";
@@ -56,7 +56,7 @@ chrome.storage.sync.get(["response_data"], async (result) => {
 		document.getElementById("need_data_div").style.display = "block";
 	}
 
-	chrome.storage.sync.get(["curr_backend_url"], (url) => {
+	browser.storage.sync.get(["curr_backend_url"], (url) => {
 		document.getElementById("privacy_policy_link").setAttribute("href", url.curr_backend_url + "privacy-policy");
 	});
 });
@@ -72,7 +72,7 @@ document.getElementById("change_demographics").addEventListener("click", functio
 	changing_demographics = 1;
 
 	// fill in current data:
-	chrome.storage.sync.get(["response_data"], (data) => {
+	browser.storage.sync.get(["response_data"], (data) => {
 
 		let current_data = Object.keys(data.response_data);
 
@@ -178,12 +178,12 @@ document.getElementById("submit").addEventListener("click", function(event) {
 	results_data.institution_level = redefine_institution(results_data.institution_level);
 
 	if (validate_data(results_data))
-		chrome.storage.sync.set({
+		browser.storage.sync.set({
 			"response_data": results_data
 		}, function() {
 
 			// reach to server to send the data
-			chrome.storage.sync.get(["unique_id", "curr_backend_url"], (result) => {
+			browser.storage.sync.get(["unique_id", "curr_backend_url"], (result) => {
 
 				if (!changing_demographics) {
 					let send_request = new XMLHttpRequest();
@@ -194,7 +194,7 @@ document.getElementById("submit").addEventListener("click", function(event) {
 						let status = this.status;
 
 						if (status == 0 || status == 200) {
-							chrome.storage.sync.set({
+							browser.storage.sync.set({
 								unique_id: this.responseText
 							}, () => {
 								window.close();

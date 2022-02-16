@@ -118,10 +118,10 @@ let wiki_unique;
 let COUNT_TIME = 1;
 
 function add_div() {
-	chrome.storage.sync.get(["response_data"], function(result) {
+	browser.storage.sync.get(["response_data"], function(result) {
 
 		tab_url = window.location.href;
-		chrome.storage.sync.set({ "curr_tab": tab_url });
+		browser.storage.sync.set({ "curr_tab": tab_url });
 
 		if (!validate_data(result.response_data)) {
 			curr_validation_status = 0;
@@ -138,7 +138,7 @@ function add_div() {
 		results_data.wiki_code = get_wiki_code(document.getElementById("t-wikibase").getElementsByTagName("a")[0]);
 		results_data.xml_body = document.getElementById("bodyContent").innerHTML;
 
-		chrome.storage.sync.get(["unique_id", "curr_backend_url"], (result) => {
+		browser.storage.sync.get(["unique_id", "curr_backend_url"], (result) => {
 
 			results_data.unique_id = result.unique_id;
 
@@ -159,7 +159,7 @@ function resize_div() {
 }
 
 window.onload = function() {
-	chrome.storage.sync.set({ curr_tab: window.href }, () => {
+	browser.storage.sync.set({ curr_tab: window.href }, () => {
 		add_div();
 	});
 };
@@ -187,7 +187,7 @@ function send_response() {
 	document.getElementById("left-navigation").style["margin-top"] = "2.5em";
 
 	// send level data with the user_unique_id and the page_unique_id
-	chrome.storage.sync.get(["unique_id", "curr_backend_url"], (chrome_data) => {
+	browser.storage.sync.get(["unique_id", "curr_backend_url"], (chrome_data) => {
 
 		let data = {
 			user_unique_id: chrome_data.unique_id,
@@ -200,14 +200,14 @@ function send_response() {
 }
 
 function focus_count() {
-	chrome.storage.sync.get(["curr_tab"], (check_global) => {
+	browser.storage.sync.get(["curr_tab"], (check_global) => {
 
 		COUNT_TIME = tab_url == check_global.curr_tab;
 
 		if (!COUNT_TIME)
 			return;
 
-		chrome.storage.sync.get(["unique_id", "curr_backend_url"], (result) => {
+		browser.storage.sync.get(["unique_id", "curr_backend_url"], (result) => {
 
 			let data = {
 				user_unique_id: result.unique_id,
@@ -222,7 +222,7 @@ function focus_count() {
 	});
 
 	if (!curr_validation_status) { // keep checking for data updates
-		chrome.storage.sync.get(["response_data"], function(result) {
+		browser.storage.sync.get(["response_data"], function(result) {
 
 			if (!validate_data(result.response_data)) {
 				curr_validation_status = 0;
