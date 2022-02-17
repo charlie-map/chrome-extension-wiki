@@ -6,6 +6,7 @@ browser.runtime.onInstalled.addListener(() => {
 });
 
 function check_url_change() {
+	console.log("url change");
 	browser.tabs.query({ active: true, lastFocusedWindow: true }, tab => {
 
 		browser.storage.sync.set({ curr_tab: tab[0].url });

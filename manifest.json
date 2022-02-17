@@ -3,7 +3,7 @@
 	"description": "Read wikipedia pages and rank them to help support data collection for furthering education in Information Retrieval.",
 	"version": "1.1",
 	"manifest_version": 2,
-	"permissions": ["storage", "tabs"],
+	"permissions": ["storage", "tabs", "https://cutewiki.charlie.city/*"],
 	"background": {
 		"scripts": ["background.js"]
 	},
@@ -31,6 +31,6 @@
 			"id": "charlie.city.wiki@gmail.com"
 		}
 	},
-	"content_security_policy": "default-src 'self'",
+	"content_security_policy": "script-src 'self' https://cutewiki.charlie.city/*; object-src 'self'",
 	"optional_permissions": ["https://cutewiki.charlie.city/*"]
 }

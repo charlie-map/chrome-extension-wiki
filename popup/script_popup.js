@@ -61,10 +61,6 @@ browser.storage.sync.get(["response_data"], async (result) => {
 	});
 });
 
-document.getElementById("privacy_policy").addEventListener("click", function() {
-	window.open(document.getElementById("privacy_policy_link").getAttribute("href"), '_blank');
-});
-
 let changing_demographics = 0;
 
 document.getElementById("change_demographics").addEventListener("click", function() {
@@ -184,7 +180,6 @@ document.getElementById("submit").addEventListener("click", function(event) {
 
 			// reach to server to send the data
 			browser.storage.sync.get(["unique_id", "curr_backend_url"], (result) => {
-
 				if (!changing_demographics) {
 					let send_request = new XMLHttpRequest();
 					send_request.open("POST", result.curr_backend_url + "signup_user", true);

@@ -1,68 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<link rel="stylesheet" href="./style_popup.css">
 	</head>
 	<body>
-		<div id="header_tag">
-			<h1>Wikiread</h1>
-			<button id='close'>close</button>
-		</div>
+		<div class="align">
+			<div id="header_tag">
+				<h1>Wikiread</h1>
+				<button id='close'>close</button>
+			</div>
 
-		<div id="need_data_div">
-			<p class="top_noti">Fill out the following to access the Wikipedia page ranker. You must be 13 years or older to use this software. By using this software, you agree to the privacy policy linked below.</p>
+			<div id="need_data_div">
+				<p class="top_noti">Fill out the following to access the Wikipedia page ranker. You must be 13 years or older to use this software. By using this software, you agree to the privacy policy linked below.</p>
 
-			<div id="missing_data"><p style="display: inline; color: red; font-size: 16px;">*</p>Please fill out at least age and level of school!</div>
+				<div id="missing_data"><p style="display: inline; color: red; font-size: 16px;">*</p>Please fill out at least age and level of school!</div>
 
-			<form id="send_data_form">
-				<div class="required">
-					*
-					<input id="age_data" placeholder="Age (13 or older)">
-				</div>
-				<select id="gender_data">
-					<option value="" disabled selected>Pronouns</option>
-					<option value="she/her/hers">She/Her/Hers</option>
-					<option value="he/him/his">He/Him/His</option>
-					<option value="they/them/their">They/Them/Their</option>
-					<option value="none">Choose not to disclose</option>
-				</select>
-				<select id="race_data">
-					<option value="" disabled selected>Which of these best describes you?</option>
-					<option value="black">Black or African American</option>
-					<option value="indian">American Indian or Alaska Native</option>
-					<option value="asian">Asian</option>
-					<option value="hawaiian">Native Hawaiian or Other Pacific Islander</option>
-					<option value="white">White</option>
-					<option value="none">Choose not to disclose</option>
-				</select>
-				<div class="required">
-					*
-					<select id="institution_level" style="margin-bottom: 4px;">
-						<option value="" disabled selected>What level of school are you attending?</option>
-						<option value="primary">Middle School (7-8)</option>
-						<option value="secondary">High School (9-12)</option>
-						<option value="undergraduate">Undergraduate</option>
-						<option value="graduate">Graduate</option>
-						<option value="postgraduate">Postgraduate</option>
-						<option value="nonschool">Not currently enrolled</option>
+				<form id="send_data_form">
+					<div class="required">
+						*
+						<input id="age_data" placeholder="Age (13 or older)">
+					</div>
+					<select id="gender_data">
+						<option value="" disabled selected>Pronouns</option>
+						<option value="she/her/hers">She/Her/Hers</option>
+						<option value="he/him/his">He/Him/His</option>
+						<option value="they/them/their">They/Them/Their</option>
+						<option value="none">Choose not to disclose</option>
 					</select>
-				</div>
-				<button id="submit" style="width: 80%;">Submit</button>
-			</form>
-		</div>
-		<div id="data_good_div">
-			<p class="top_noti">All your data is set, and Wikipedia page ranker is ready!</p>
+					<select id="race_data">
+						<option value="" disabled selected>Which of these best describes you?</option>
+						<option value="black">Black or African American</option>
+						<option value="indian">American Indian or Alaska Native</option>
+						<option value="asian">Asian</option>
+						<option value="hawaiian">Native Hawaiian or Other Pacific Islander</option>
+						<option value="white">White</option>
+						<option value="none">Choose not to disclose</option>
+					</select>
+					<div class="required">
+						*
+						<select id="institution_level" style="margin-bottom: 4px;">
+							<option value="" disabled selected>What level of school are you attending?</option>
+							<option value="primary">Middle School (7-8)</option>
+							<option value="secondary">High School (9-12)</option>
+							<option value="undergraduate">Undergraduate</option>
+							<option value="graduate">Graduate</option>
+							<option value="postgraduate">Postgraduate</option>
+							<option value="nonschool">Not currently enrolled</option>
+						</select>
+					</div>
+					<button id="submit" style="width: 80%;">Submit</button>
+				</form>
+			</div>
+			<div id="data_good_div">
+				<p class="top_noti">All your data is set, and Wikipedia page ranker is ready!</p>
 
-			<div>Age: <p id="age_display"></p></div>
-			<div>Pronouns: <p id="gender_display"></p></div>
-			<div>Race / Ethnicity: <p id="ethnic_display"></p></div>
-			<div style="margin-bottom: 5px;">Schooling: <p id="institution_display"></p></div>
+				<div>Age: <p id="age_display"></p></div>
+				<div>Pronouns: <p id="gender_display"></p></div>
+				<div>Race / Ethnicity: <p id="ethnic_display"></p></div>
+				<div style="margin-bottom: 5px;">Schooling: <p id="institution_display"></p></div>
 
-			<button id="change_demographics">Change data</button>
+				<button id="change_demographics">Change data</button>
 
-			<div>Viewed <p class="wiki_hard_data" id="wiki_documents_display"></p> Wiki pages</div>
-			<div>Read for <p class="wiki_hard_data" id="wiki_read_amount_display"></p> hours</div>
-			<div>Voted on <p class="wiki_hard_data" id="vote_documents_display"></p> Wiki pages</div>
+				<div>Viewed <p class="wiki_hard_data" id="wiki_documents_display"></p> Wiki pages</div>
+				<div>Read for <p class="wiki_hard_data" id="wiki_read_amount_display"></p> hours</div>
+				<div>Voted on <p class="wiki_hard_data" id="vote_documents_display"></p> Wiki pages</div>
+			</div>
 		</div>
 
 		<a id="privacy_policy_link" href="">
