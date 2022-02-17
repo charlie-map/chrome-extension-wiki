@@ -15,15 +15,16 @@
 			"run_at": "document_end"
 		}	
 	],
-	"page_action": {
-		"default_popup": "popup.html",
+	"browser_action": {
+		"default_popup": "popup/popup.html",
 		"default_icon": {
-			"128": "/images/question_markSmall.png"
+			"128": "icons/icon.png"
 		},
-		"default_title": "Wikiread"
+		"default_title": "Wikiread",
+		"browser_style": true
 	},
 	"icons": {
-		"128": "/images/question_markSmall.png"
+		"128": "icons/icon.png"
 	},
 	"browser_specific_settings": {
 		"gecko": {
