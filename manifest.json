@@ -10,7 +10,7 @@
 	"content_scripts": [
 		{
 			"matches": ["https://en.wikipedia.org/wiki/*"],
-			"js": ["content.js"],
+			"js": ["jquery.min.js", "content.js"],
 			"css": ["css/style.css"],
 			"run_at": "document_end"
 		}	
@@ -27,5 +27,5 @@
 	"content_security_policy": {
 	  "extension_pages": "script-src 'self'; object-src 'self'"
 	},
-	"host_permissions": ["https://cutewiki.charlie.city/*"]
+	"host_permissions": ["https://*.cutewiki.charlie.city/*"]
 }

@@ -64,6 +64,8 @@ function add_decision_div() {
 
 	xml_site_wiki_tag.innerHTML = div_up_or_down + xml_site_wiki_tag.innerHTML;
 
+
+
 	// add click to the buttons
 	let user_buttons = document.getElementsByClassName("user_decision_button");
 
@@ -109,11 +111,59 @@ function add_error_div() {
 	let xml_site_wiki_tag = document.getElementsByTagName("body")[0];
 
 	xml_site_wiki_tag.innerHTML = div_error + xml_site_wiki_tag.innerHTML;
+
+	// create suggestion feature
+	let div_suggestor = `
+		<div id="wiki-page-suggestor">
+			<p id="wiki-page-surfer-p">Surf to</p>
+			<div id="page-suggestor-button">
+				<img id="page-suggestor-surfer" src="https://cutewiki.charlie.city/surfer.png"/>
+				<div id="page-suggestor-send-container" class="container">
+					<div id="page-suggestor-send" class="submit-feedback">another page</div>
+				</div>
+			</div>
+		</div>
+	`;
+
+	// <button id="page-suggestor-clicker">another page</button>
+
+	let page_suggest_check = document.getElementById("wiki-page-suggestor");
+	let xml_site_wiki_sidebar = document.getElementById("p-logo");
+	xml_site_wiki_sidebar.style.height = "270px";
+
+	if (page_suggest_check)
+		page_suggest_check = div_suggestor;
+	else
+		xml_site_wiki_sidebar.innerHTML += div_suggestor;
+
+	document.getElementById("page-suggestor-send").addEventListener("mouseover", page_suggest_hover);
+	document.getElementById("page-suggestor-send").addEventListener("mouseout", page_suggest_unhover);
+
+	document.getElementById("page-suggestor-send").addEventListener("click", send_page_suggest);
+}
+
+function page_suggest_hover() {
+	document.getElementById("page-suggestor-send").classList.add("flow");
+	document.getElementById("wiki-page-suggestor").classList.add("flow");
+}
+
+function page_suggest_unhover() {
+	document.getElementById("page-suggestor-send").classList.remove("flow");
+	document.getElementById("wiki-page-suggestor").classList.remove("flow");
+}
+
+function send_page_suggest() {
+	console.log("SENDING", wiki_unique);
+
+	//let my_res = await send_request("POST", "https://suggestor.cutewiki.charlie.city/nn", {"unique-id": wiki_unique});
+	$.post("https://suggestor.cutewiki.charlie.city/nn", {"unique-id": wiki_unique}, (res) => {
+		console.log("RECV", res);
+	});
 }
 
 let curr_validation_status = 1;
 let tab_url;
-let wiki_unique;
+let wiki_unique = get_wiki_code(document.getElementById("t-wikibase").getElementsByTagName("a")[0]);
 
 let COUNT_TIME = 1;
 
