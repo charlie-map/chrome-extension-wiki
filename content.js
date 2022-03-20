@@ -143,21 +143,39 @@ function add_error_div() {
 }
 
 function page_suggest_hover() {
-	document.getElementById("page-suggestor-send").classList.add("flow");
-	document.getElementById("wiki-page-suggestor").classList.add("flow");
+	$("#page-suggestor-send").addClass("flow");
+	$("#wiki-page-suggestor").addClass("flow");
 }
 
+let waiting_suggest = 0;
+
 function page_suggest_unhover() {
-	document.getElementById("page-suggestor-send").classList.remove("flow");
-	document.getElementById("wiki-page-suggestor").classList.remove("flow");
+	if (waiting_suggest) return;
+
+	$("#page-suggestor-send").removeClass("flow");
+	$("#wiki-page-suggestor").removeClass("flow");
 }
 
 function send_page_suggest() {
-	console.log("SENDING", wiki_unique);
+	waiting_suggest = 1;
 
-	//let my_res = await send_request("POST", "https://suggestor.cutewiki.charlie.city/nn", {"unique-id": wiki_unique});
+	$("#page-suggestor-send").addClass("flow");
+	$("#wiki-page-suggestor").addClass("flow");
+
+	$("#page-suggestor-surfer").addClass("moving");
+	$("#page-suggestor-send-container").addClass("moving");
+
+	$("#wiki-page-surfer-p").html(`
+		<img class="shells left" src="https://cutewiki.charlie.city/smallshell.png"/>
+		<img class="shells mid" src="https://cutewiki.charlie.city/smallshell.png"/>
+		<img class="shells right" src="https://cutewiki.charlie.city/smallshell.png"/>
+	`);
+	$("#page-suggestor-send").html("loading");
+
+	console.log(wiki_unique);
 	$.post("https://suggestor.cutewiki.charlie.city/nn", {"unique-id": wiki_unique}, (res) => {
-		console.log("RECV", res);
+		console.log(res);
+		window.location.href = "https://wikipedia.org/wiki/" + res;
 	});
 }
 
