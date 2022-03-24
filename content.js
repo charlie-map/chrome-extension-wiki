@@ -183,7 +183,7 @@ function send_page_suggest() {
 	`);
 	$("#page-suggestor-send").html("loading");
 
-	setTimeout(taking_awhile, 800);
+	setTimeout(taking_awhile, 1400);
 	$.post("https://suggestor.cutewiki.charlie.city/nn", {"unique-id": wiki_unique}, (res) => {
 		window.location.href = "https://wikipedia.org/wiki/" + res;
 	});
