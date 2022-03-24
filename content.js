@@ -101,6 +101,12 @@ function add_decision_div() {
 	if (check_taking_awhile_alive)
 		check_taking_awhile_alive.remove();
 
+	let taking_awhile_content = `
+		<div id="suggestor-taking-awhile-container">
+			Taking awhile? Find out <a target="_blank" href="https://charlie.city/wikisuggest-slow?title=${$("#firstHeading").html()}"><button id="suggestor-taking-awhile-why">why.</button></a>
+		</div>
+	`;
+
 	document.getElementById("p-logo").innerHTML += taking_awhile_content;
 	if (taking_awhile_bool)
 		$("#suggestor-taking-awhile-container").addClass("display");
@@ -184,11 +190,6 @@ function send_page_suggest() {
 }
 
 let taking_awhile_bool = 0;
-let taking_awhile_content = `
-	<div id="suggestor-taking-awhile-container">
-		Taking awhile? Find out <a target="_blank" href="https://charlie.city/wikisuggest-slow"><button id="suggestor-taking-awhile-why">why.</button></a>
-	</div>
-`;
 
 function taking_awhile() {
 	taking_awhile_bool = 1;
