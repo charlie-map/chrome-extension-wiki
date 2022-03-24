@@ -71,46 +71,8 @@ function add_decision_div() {
 		user_buttons[add_event].addEventListener("click", send_response);
 	}
 
-}
 
-function add_error_div() {
-
-	// change size of header
-	document.getElementById("mw-page-base").style.height = "10em";
-	document.getElementById("right-navigation").style["margin-top"] = "7.5em";
-	document.getElementById("left-navigation").style["margin-top"] = "7.5em";
-
-	// calc proportions
-	let menu_element = document.getElementById("p-personal").getElementsByClassName("vector-menu-content-list")[0];
-
-	// remove menu_element padding to get width
-	menu_element.style["padding-left"] = 0;
-	let menu_width = menu_element.offsetWidth;
-	menu_element.style["padding-left"] = 0;
-
-	let left_panel_width = document.getElementById("mw-panel").offsetWidth;
-	let page_width = document.getElementsByTagName("body")[0].offsetWidth;
-
-	let div_error = `
-		<div class="user_decision_tag" style="
-				width: calc(${page_width - menu_width - left_panel_width - 5}px - 1em);
-				height: 120px;
-				left: ${left_panel_width + 10}px;">
-			<h2 style="text-align: center; overflow-y: auto">Required data is either missing or incorrect in the Wikireader</h2>
-			Try changing the data in the extension popup and reloading the page.
-		</div>
-	`;
-
-	let check_existence = document.getElementsByClassName("user_decision_tag")[0];
-	if (check_existence)
-		check_existence.remove();
-	let xml_site_wiki_tag = document.getElementsByTagName("body")[0];
-
-	xml_site_wiki_tag.innerHTML = div_error + xml_site_wiki_tag.innerHTML;
-
-
-
-		// create suggestion feature
+	// create suggestion feature
 	let div_suggestor = `
 		<div id="wiki-page-suggestor">
 			<p id="wiki-page-surfer-p">Surf to</p>
@@ -147,6 +109,42 @@ function add_error_div() {
 	document.getElementById("page-suggestor-send").addEventListener("mouseout", page_suggest_unhover);
 
 	document.getElementById("page-suggestor-send").addEventListener("click", send_page_suggest);
+}
+
+function add_error_div() {
+
+	// change size of header
+	document.getElementById("mw-page-base").style.height = "10em";
+	document.getElementById("right-navigation").style["margin-top"] = "7.5em";
+	document.getElementById("left-navigation").style["margin-top"] = "7.5em";
+
+	// calc proportions
+	let menu_element = document.getElementById("p-personal").getElementsByClassName("vector-menu-content-list")[0];
+
+	// remove menu_element padding to get width
+	menu_element.style["padding-left"] = 0;
+	let menu_width = menu_element.offsetWidth;
+	menu_element.style["padding-left"] = 0;
+
+	let left_panel_width = document.getElementById("mw-panel").offsetWidth;
+	let page_width = document.getElementsByTagName("body")[0].offsetWidth;
+
+	let div_error = `
+		<div class="user_decision_tag" style="
+				width: calc(${page_width - menu_width - left_panel_width - 5}px - 1em);
+				height: 120px;
+				left: ${left_panel_width + 10}px;">
+			<h2 style="text-align: center; overflow-y: auto">Required data is either missing or incorrect in the Wikireader</h2>
+			Try changing the data in the extension popup and reloading the page.
+		</div>
+	`;
+
+	let check_existence = document.getElementsByClassName("user_decision_tag")[0];
+	if (check_existence)
+		check_existence.remove();
+	let xml_site_wiki_tag = document.getElementsByTagName("body")[0];
+
+	xml_site_wiki_tag.innerHTML = div_error + xml_site_wiki_tag.innerHTML;
 }
 
 function page_suggest_hover() {
