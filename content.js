@@ -199,8 +199,7 @@ function popup(id, str) {
 	return `
 	<div id="${id}" class="wiki-popup-box">
 		<p>${str}</p>
-	</div>
-	`;
+	</div>`;
 }
 
 let taking_awhile_bool = 0;
@@ -359,16 +358,23 @@ function recommender_system() {
 
 				possibles += `
 					<div class="wiki-page-recommended-option">
-						<img src="https://${response_arr[res_].image}"/>
-						<h4>${response_arr[res_].title}</h4>
-						<div>${description} <div class="fog">${final_word}</div></div>
+						<div class="image-title-recommender">
+							<img src="https://${response_arr[res_].image}"/>
+							<h4>${response_arr[res_].title}</h4>
+						</div>
+						<div style="margin-left: 5px">${description} <div class="fog">${final_word}</div></div>
 					</div>
 				`;
 			}
 
+			let popup_question = popup("wiki-recommender-popup", "These recommendations are unique and curated just for you! Using your previously viewed pages, the system finds documents that closely relate to them. This feature utilizes many components of your Wikipedia usage and can possibly help you learn about yourself!");
+
 			let full_recommend = `
 				<div id="wiki-recommender">
-					<p>Recommended for you!</p><button id="wiki-page-surfer-question">?</button>
+					<div id="wiki-recommender-header">
+						<button id="wiki-recommender-meta-question"><p>?</p>${popup_question}</button><p id="recommended-id">Recommended</p>
+						<button id="open-wiki-recommender"><img id="arrow-pointer" alt="arrow" src="https://charlie.city/arrow2.png"/></button>
+					</div>
 					<div id="wiki-recommender-meta-options">
 						${possibles}
 					</div>					
@@ -379,6 +385,16 @@ function recommender_system() {
 			if (wiki_doc_exist)
 				wiki_doc_exist.remove();
 			document.getElementsByTagName("body")[0].innerHTML += full_recommend;
+
+			$("#open-wiki-recommender").on("click", function() {
+				if (!$("arrow-pointer").hasClass("open")) {
+					$("#wiki-recommender").addClass("open");
+					$("arrow-pointer").addClass("open");
+				} else {
+					$("#wiki-recommender").removeClass("open");
+					$("arrow-pointer").removeClass("open");
+				}
+			});
 		});
 	});
 }
