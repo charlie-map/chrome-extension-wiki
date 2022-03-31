@@ -246,6 +246,86 @@
   margin-left: 0px;
 }
 
+#wiki-page-surfer-question {
+	width: 15px;
+	height: 15px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	transform: scale(0.45);
+	margin-right: -5px;
+	margin-bottom: 10px;
+
+	display: inline;
+	border-radius: 100%;
+	border: none;
+
+	background: #DB7835;
+
+	transition: transform 0.3s ease-in-out;
+}
+
+#wiki-page-surfer-question p {
+	margin: 0;
+
+	text-align: center;
+}
+
+#wiki-page-surfer-question:hover {
+	transform: scale(0.55);
+	cursor: pointer;
+}
+
+.wiki-popup-box {
+	position: absolute;
+	width: 160px;
+	height: 150px;
+
+	background: #e15915;
+	opacity: 0;
+}
+
+.wiki-popup-box:after {
+    content:'';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -32px;
+    width: 0;
+    height: 0;
+    border-top: solid 15px #e15915;
+    border-left: solid 15px transparent;
+    border-right: solid 15px transparent;
+}
+
+#surfer-question-popup {
+	margin-top: -200px;
+	margin-left: -320px;
+
+	transform: scale(1.4);
+}
+
+#wiki-page-surfer-question:hover #surfer-question-popup {
+	opacity: 0.9;
+
+	margin-left: -50px;
+}
+
+#surfer-question-popup:hover {
+	opacity: 0 !important;
+}
+
+#surfer-question-popup:hover:visible {
+	opacity: 0.9 !important;
+}
+
+#surfer-question-popup p {
+	font-size: 12px;
+	padding: 2px;
+}
+
 #suggestor-taking-awhile-why {
 	border: none;
 	border: 1px solid black;
@@ -267,4 +347,36 @@
 
 .vector-menu-content-list {
 	flex-direction: column !important;
+}
+
+#wiki-recommender {
+	position: sticky;
+	bottom: 20px;
+	left: 0px;
+
+	width: 160px;
+	background: white;
+
+	z-index: 8;
+}
+
+.wiki-page-recommended-option {
+
+}
+
+.wiki-page-recommended-option div {
+	font-size: 12px;
+
+	max-height: 70px;
+	display: inline;
+}
+
+.fog {
+	width: 12px;
+	height: 12px;
+
+	display: inline;
+	background: linear-gradient(to left, white, black);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent; 
 }

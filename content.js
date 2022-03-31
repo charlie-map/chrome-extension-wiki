@@ -72,49 +72,6 @@ function add_decision_div() {
 	}
 
 
-	// create suggestion feature
-	let div_suggestor = `
-		<div id="wiki-page-suggestor">
-			<p id="wiki-page-surfer-p">Surf to</p>
-			<div id="page-suggestor-button">
-				<img id="page-suggestor-surfer" src="https://cutewiki.charlie.city/surfer.png"/>
-				<div id="page-suggestor-send-container" class="container">
-					<div id="page-suggestor-send" class="submit-feedback">another page</div>
-				</div>
-			</div>
-		</div>
-	`;
-
-	let page_suggest_check = document.getElementById("wiki-page-suggestor");
-
-
-	let xml_site_wiki_sidebar = document.getElementById("p-logo");
-	xml_site_wiki_sidebar.style.height = "270px";
-	if (page_suggest_check)
-		page_suggest_check = div_suggestor;
-	else
-		xml_site_wiki_sidebar.innerHTML += div_suggestor;
-
-
-	let check_taking_awhile_alive = document.getElementById("suggestor-taking-awhile-container");
-
-	if (check_taking_awhile_alive)
-		check_taking_awhile_alive.remove();
-
-	let taking_awhile_content = `
-		<div id="suggestor-taking-awhile-container">
-			Taking awhile? Find out <a target="_blank" href="https://charlie.city/wikisuggest-slow?title=${$("#firstHeading").html()}"><button id="suggestor-taking-awhile-why">why.</button></a>
-		</div>
-	`;
-
-	document.getElementById("p-logo").innerHTML += taking_awhile_content;
-	if (taking_awhile_bool)
-		$("#suggestor-taking-awhile-container").addClass("display");
-
-	document.getElementById("page-suggestor-send").addEventListener("mouseover", page_suggest_hover);
-	document.getElementById("page-suggestor-send").addEventListener("mouseout", page_suggest_unhover);
-
-	document.getElementById("page-suggestor-send").addEventListener("click", send_page_suggest);
 }
 
 function add_error_div() {
@@ -151,6 +108,54 @@ function add_error_div() {
 	let xml_site_wiki_tag = document.getElementsByTagName("body")[0];
 
 	xml_site_wiki_tag.innerHTML = div_error + xml_site_wiki_tag.innerHTML;
+
+	// create suggestion feature
+	let div_suggestor = `
+		<div id="wiki-page-suggestor">
+			<div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+				<div id="wiki-page-surfer-question">${popup("surfer-question-popup",
+					"What is surfing? Surfing is the process of jumping between pages via any links held within. This surf option utilizes a similar concept, but instead searches through a repository of previous pages seen by other users and suggests them based on their contents.")}<p>?</p></div>
+				<p id="wiki-page-surfer-p">Surf to</p>
+			</div>
+			<div id="page-suggestor-button">
+				<img id="page-suggestor-surfer" src="https://cutewiki.charlie.city/surfer.png"/>
+				<div id="page-suggestor-send-container" class="container">
+					<div id="page-suggestor-send" class="submit-feedback">another page</div>
+				</div>
+			</div>
+		</div>
+	`;
+
+	let page_suggest_check = document.getElementById("wiki-page-suggestor");
+
+
+	let xml_site_wiki_sidebar = document.getElementById("p-logo");
+	xml_site_wiki_sidebar.style.height = "270px";
+	if (page_suggest_check)
+		page_suggest_check = div_suggestor;
+	else
+		xml_site_wiki_sidebar.innerHTML += div_suggestor;
+
+	let check_taking_awhile_alive = document.getElementById("suggestor-taking-awhile-container");
+
+	if (check_taking_awhile_alive)
+		check_taking_awhile_alive.remove();
+
+	let taking_awhile_content = `
+		<div id="suggestor-taking-awhile-container">
+			Taking awhile? Find out <a target="_blank" href="https://charlie.city/wikisuggest-slow?title=${$("#firstHeading").html()}"><button id="suggestor-taking-awhile-why">why.</button></a>
+		</div>
+	`;
+	recommender_system();
+
+	document.getElementById("p-logo").innerHTML += taking_awhile_content;
+	if (taking_awhile_bool)
+		$("#suggestor-taking-awhile-container").addClass("display");
+
+	document.getElementById("page-suggestor-send").addEventListener("mouseover", page_suggest_hover);
+	document.getElementById("page-suggestor-send").addEventListener("mouseout", page_suggest_unhover);
+
+	document.getElementById("page-suggestor-send").addEventListener("click", send_page_suggest);
 }
 
 function page_suggest_hover() {
@@ -168,6 +173,7 @@ function page_suggest_unhover() {
 }
 
 function send_page_suggest() {
+	$("#wiki-page-surfer-question").hide();
 	waiting_suggest = 1;
 
 	$("#page-suggestor-send").addClass("flow");
@@ -187,6 +193,14 @@ function send_page_suggest() {
 	$.post("https://suggestor.cutewiki.charlie.city/nn", {"unique-id": wiki_unique}, (res) => {
 		window.location.href = "https://wikipedia.org/wiki/" + res;
 	});
+}
+
+function popup(id, str) {
+	return `
+	<div id="${id}" class="wiki-popup-box">
+		<p>${str}</p>
+	</div>
+	`;
 }
 
 let taking_awhile_bool = 0;
@@ -324,6 +338,50 @@ function focus_count() {
 }
 
 setInterval(focus_count, 48000);
+
+function recommender_system() {
+	chrome.storage.sync.get(["unique_id"], function(un_id) {
+		$.post("https://suggestor.cutewiki.charlie.city/ur", { uuid: "69c3befa-95d8-4cd7-b04b-8a7b0739a52b" }, function(res) {
+			let response_arr = JSON.parse(res);
+
+			let possibles = "";
+			for (let res_ = 0; res_ < response_arr.length; res_++) {
+				let description = response_arr[res_].descript.substr(0, 90);
+				let split_words = description.split(" ");
+				let final_word = "";
+
+				let find_final_word;
+				for (find_final_word = split_words.length - 1; find_final_word > 0 && !final_word.length; find_final_word--) {
+					final_word = split_words[find_final_word];
+				}
+
+				description = split_words.slice(0, find_final_word + 1).join(" ");
+
+				possibles += `
+					<div class="wiki-page-recommended-option">
+						<img src="https://${response_arr[res_].image}"/>
+						<h4>${response_arr[res_].title}</h4>
+						<div>${description} <div class="fog">${final_word}</div></div>
+					</div>
+				`;
+			}
+
+			let full_recommend = `
+				<div id="wiki-recommender">
+					<p>Recommended for you!</p><button id="wiki-page-surfer-question">?</button>
+					<div id="wiki-recommender-meta-options">
+						${possibles}
+					</div>					
+				</div>
+			`;
+
+			let wiki_doc_exist = document.getElementById("wiki-recommender");
+			if (wiki_doc_exist)
+				wiki_doc_exist.remove();
+			document.getElementsByTagName("body")[0].innerHTML += full_recommend;
+		});
+	});
+}
 
 let validaters = {
 	age_check: function(test_age) {
