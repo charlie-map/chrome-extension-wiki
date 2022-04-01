@@ -75,6 +75,7 @@ function add_decision_div() {
 }
 
 function add_error_div() {
+	console.log(get_wiki_code(document.getElementById("t-wikibase").getElementsByTagName("a")[0]));
 
 	// change size of header
 	document.getElementById("mw-page-base").style.height = "10em";
@@ -126,8 +127,80 @@ function add_error_div() {
 		</div>
 	`;
 
-	let page_suggest_check = document.getElementById("wiki-page-suggestor");
+	let popup_question = popup("wiki-recommender-popup", "These recommendations are unique and curated just for you! Using your previously viewed pages, the system finds documents that closely relate to them. This feature utilizes many components of your Wikipedia usage and can possibly help you learn about yourself!");
+	let unique_page_suggestor = `
+		<div id="wiki-recommender">
+			<div id="wiki-recommender-header">
+				<button id="wiki-recommender-meta-question"><p>?</p>${popup_question}</button><p id="recommended-id">Recommended</p>
+				<button id="open-wiki-recommender"><img id="arrow-pointer" alt="arrow" src="https://charlie.city/arrow2.png"/></button>
+			</div>
+			<div id="wiki-recommender-meta-options">
+				<div id="recommender-loading-options">
+					<div class="dice">
+						<div class="face first-face">
+							<div class="dot"></div>  
+						</div>
 
+						<div class="face second-face">
+							<div class="dot"></div>  
+							<div class="dot"></div>  
+						</div>
+
+						<div class="face third-face">
+							<div class="dot"></div>  
+							<div class="dot"></div>
+							<div class="dot"></div>
+						</div>
+
+						<div class="face fourth-face">
+							<div class="column">
+								<div class="dot"></div>  
+								<div class="dot"></div>  
+							</div>
+							<div class="column">
+								<div class="dot"></div>  
+								<div class="dot"></div>  
+							</div>    
+						</div>
+
+						<div class="face fifth-face">
+							<div class="column">
+								<div class="dot"></div>  
+								<div class="dot"></div>  
+							</div>
+							<div class="column">
+								<div class="dot"></div>
+							</div>
+							<div class="column">
+								<div class="dot"></div>  
+								<div class="dot"></div>  
+							</div>    
+						</div>
+
+						<div class="face sixth-face">
+							<div class="column">
+								<div class="dot"></div>  
+								<div class="dot"></div>
+								<div class="dot"></div>
+							</div>
+							<div class="column">
+								<div class="dot"></div>  
+								<div class="dot"></div>  
+								<div class="dot"></div>
+							</div>    
+						</div>
+					</div>
+					<p style="width:100%; text-align:center;">Loading...</p>
+				</div>
+			</div>					
+		</div>
+	`;
+
+	let check_unique_recommender = document.getElementById("wiki-recommender");
+	if (check_unique_recommender)
+		check_unique_recommender.remove();
+
+	let page_suggest_check = document.getElementById("wiki-page-suggestor");
 
 	let xml_site_wiki_sidebar = document.getElementById("p-logo");
 	xml_site_wiki_sidebar.style.height = "270px";
@@ -146,7 +219,18 @@ function add_error_div() {
 			Taking awhile? Find out <a target="_blank" href="https://charlie.city/wikisuggest-slow?title=${$("#firstHeading").html()}"><button id="suggestor-taking-awhile-why">why.</button></a>
 		</div>
 	`;
+
+	document.getElementsByTagName("body")[0].innerHTML += unique_page_suggestor;
 	recommender_system();
+	$("#open-wiki-recommender").on("click", function() {
+		if (!$("#arrow-pointer").hasClass("open")) {
+			$("#wiki-recommender").addClass("open");
+			$("#arrow-pointer").addClass("open");
+		} else {
+			$("#wiki-recommender").removeClass("open");
+			$("#arrow-pointer").removeClass("open");
+		}
+	});
 
 	document.getElementById("p-logo").innerHTML += taking_awhile_content;
 	if (taking_awhile_bool)
@@ -340,61 +424,65 @@ setInterval(focus_count, 48000);
 
 function recommender_system() {
 	chrome.storage.sync.get(["unique_id"], function(un_id) {
-		$.post("https://suggestor.cutewiki.charlie.city/ur", { uuid: "69c3befa-95d8-4cd7-b04b-8a7b0739a52b" }, function(res) {
-			let response_arr = JSON.parse(res);
+		$.ajax({
+			type: "POST",
+			url: "https://suggestor.cutewiki.charlie.city/ur",
+			data: { uuid: "69c3befa-95d8-4cd7-b04b-8a7b0739a52b" },
+			success: function(res) {
+				$("#recommender-loading-options").hide();
+				let response_arr = JSON.parse(res);
 
-			let possibles = "";
-			for (let res_ = 0; res_ < response_arr.length; res_++) {
-				let description = response_arr[res_].descript.substr(0, 90);
-				let split_words = description.split(" ");
-				let final_word = "";
+				let possibles = "";
+				for (let res_ = 0; res_ < response_arr.length; res_++) {
+					let description = response_arr[res_].descript.substr(0, 150);
+					let split_words = description.split(" ");
+					let final_word = "";
 
-				let find_final_word;
-				for (find_final_word = split_words.length - 1; find_final_word > 0 && !final_word.length; find_final_word--) {
-					final_word = split_words[find_final_word];
-				}
+					let find_final_word;
+					for (find_final_word = split_words.length - 1; find_final_word > 0 && !final_word.length; find_final_word--) {
+						final_word = split_words[find_final_word];
+					}
 
-				description = split_words.slice(0, find_final_word + 1).join(" ");
+					description = split_words.slice(0, find_final_word + 1).join(" ");
 
-				possibles += `
-					<div class="wiki-page-recommended-option">
-						<div class="image-title-recommender">
-							<img src="https://${response_arr[res_].image}"/>
-							<h4>${response_arr[res_].title}</h4>
+					possibles += `
+						<div class="wiki-page-recommended-option">
+							<div class="image-title-recommender">
+								<img src="https://${response_arr[res_].image}"/>
+								<h4>${response_arr[res_].title}</h4>
+							</div>
+							<div style="margin-left: 5px"><p class="recommender-text">${description}</p><div class="fog">${final_word}</div></div>
 						</div>
-						<div style="margin-left: 5px">${description} <div class="fog">${final_word}</div></div>
-					</div>
-				`;
-			}
-
-			let popup_question = popup("wiki-recommender-popup", "These recommendations are unique and curated just for you! Using your previously viewed pages, the system finds documents that closely relate to them. This feature utilizes many components of your Wikipedia usage and can possibly help you learn about yourself!");
-
-			let full_recommend = `
-				<div id="wiki-recommender">
-					<div id="wiki-recommender-header">
-						<button id="wiki-recommender-meta-question"><p>?</p>${popup_question}</button><p id="recommended-id">Recommended</p>
-						<button id="open-wiki-recommender"><img id="arrow-pointer" alt="arrow" src="https://charlie.city/arrow2.png"/></button>
-					</div>
-					<div id="wiki-recommender-meta-options">
-						${possibles}
-					</div>					
-				</div>
-			`;
-
-			let wiki_doc_exist = document.getElementById("wiki-recommender");
-			if (wiki_doc_exist)
-				wiki_doc_exist.remove();
-			document.getElementsByTagName("body")[0].innerHTML += full_recommend;
-
-			$("#open-wiki-recommender").on("click", function() {
-				if (!$("arrow-pointer").hasClass("open")) {
-					$("#wiki-recommender").addClass("open");
-					$("arrow-pointer").addClass("open");
-				} else {
-					$("#wiki-recommender").removeClass("open");
-					$("arrow-pointer").removeClass("open");
+					`;
 				}
-			});
+
+				let wiki_doc_exist = document.getElementById("wiki-recommender-meta-options");
+				wiki_doc_exist.innerHTML = possibles;
+
+				$(".wiki-page-recommended-option").on("click", function() {
+					console.log("click", $(this).children(".image-title-recommender").children("h4").html());
+					window.location.href = "https://wikipedia.org/wiki/" + $(this).children(".image-title-recommender").children("h4").html();
+				});
+			},
+			failure: function(err) {
+				$("#recommender-loading-options").hide();
+				let failed_to_load = `
+					<div class="image-title-recommender">
+						<img src="https://charlie.city/red-x.png"/>
+						<h4>Failed to Load Options</h4>
+					</div>
+					<div style="margin-left: 5px"><p class="recommender-text">This may occur due to an internal server error, or a possible issue with the underlying algorithms. A report has been sent to system admin and will be </p><div class="fog">looked into.</div></div>
+				`;
+
+				let special_failed = document.getElementById("special-failed");
+				if (special_failed) {
+					special_failed.innerHTML = failed_to_load;
+					return;
+				}
+
+				let pull_meta_options = document.getElementById("wiki-recommender-meta-options");
+				pull_meta_options.innerHTML += `<div id="special-failed" class="wiki-page-recommended-option">${failed_to_load}</div>`;
+			}
 		});
 	});
 }
