@@ -62,53 +62,12 @@ function add_decision_div() {
 
 	xml_site_wiki_tag.innerHTML = div_up_or_down + xml_site_wiki_tag.innerHTML;
 
-
-
 	// add click to the buttons
 	let user_buttons = document.getElementsByClassName("user_decision_button");
 
 	for (let add_event = 0; add_event < user_buttons.length; add_event++) {
 		user_buttons[add_event].addEventListener("click", send_response);
 	}
-
-
-}
-
-function add_error_div() {
-	console.log(get_wiki_code(document.getElementById("t-wikibase").getElementsByTagName("a")[0]));
-
-	// change size of header
-	document.getElementById("mw-page-base").style.height = "10em";
-	document.getElementById("right-navigation").style["margin-top"] = "7.5em";
-	document.getElementById("left-navigation").style["margin-top"] = "7.5em";
-
-	// calc proportions
-	let menu_element = document.getElementById("p-personal").getElementsByClassName("vector-menu-content-list")[0];
-
-	// remove menu_element padding to get width
-	menu_element.style["padding-left"] = 0;
-	let menu_width = menu_element.offsetWidth;
-	menu_element.style["padding-left"] = 0;
-
-	let left_panel_width = document.getElementById("mw-panel").offsetWidth;
-	let page_width = document.getElementsByTagName("body")[0].offsetWidth;
-
-	let div_error = `
-		<div class="user_decision_tag" style="
-				width: calc(${page_width - menu_width - left_panel_width - 5}px - 1em);
-				height: 120px;
-				left: ${left_panel_width + 10}px;">
-			<h2 style="text-align: center; overflow-y: auto">Required data is either missing or incorrect in the Wikireader</h2>
-			Try changing the data in the extension popup and reloading the page.
-		</div>
-	`;
-
-	let check_existence = document.getElementsByClassName("user_decision_tag")[0];
-	if (check_existence)
-		check_existence.remove();
-	let xml_site_wiki_tag = document.getElementsByTagName("body")[0];
-
-	xml_site_wiki_tag.innerHTML = div_error + xml_site_wiki_tag.innerHTML;
 
 	// create suggestion feature
 	let div_suggestor = `
@@ -220,26 +179,68 @@ function add_error_div() {
 		</div>
 	`;
 
-	document.getElementsByTagName("body")[0].innerHTML += unique_page_suggestor;
-	recommender_system();
-	$("#open-wiki-recommender").on("click", function() {
-		if (!$("#arrow-pointer").hasClass("open")) {
-			$("#wiki-recommender").addClass("open");
-			$("#arrow-pointer").addClass("open");
-		} else {
-			$("#wiki-recommender").removeClass("open");
-			$("#arrow-pointer").removeClass("open");
-		}
-	});
-
 	document.getElementById("p-logo").innerHTML += taking_awhile_content;
 	if (taking_awhile_bool)
 		$("#suggestor-taking-awhile-container").addClass("display");
+
+	let check_wiki_recommender_exist = document.getElementById("wiki-recommender");
+	if (!check_wiki_recommender_exist) {
+		document.getElementsByTagName("body")[0].innerHTML += unique_page_suggestor;
+		recommender_system();
+		$("#open-wiki-recommender").on("click", wiki_recommender_click);
+		$("#recommended-id").on("click", wiki_recommender_click);
+	}
 
 	document.getElementById("page-suggestor-send").addEventListener("mouseover", page_suggest_hover);
 	document.getElementById("page-suggestor-send").addEventListener("mouseout", page_suggest_unhover);
 
 	document.getElementById("page-suggestor-send").addEventListener("click", send_page_suggest);
+}
+
+function wiki_recommender_click() {
+	if (!$("#arrow-pointer").hasClass("open")) {
+		$("#wiki-recommender").addClass("open");
+		$("#arrow-pointer").addClass("open");
+	} else {
+		$("#wiki-recommender").removeClass("open");
+		$("#arrow-pointer").removeClass("open");
+	}
+}
+
+function add_error_div() {
+	console.log(get_wiki_code(document.getElementById("t-wikibase").getElementsByTagName("a")[0]));
+	// change size of header
+	document.getElementById("mw-page-base").style.height = "10em";
+	document.getElementById("right-navigation").style["margin-top"] = "7.5em";
+	document.getElementById("left-navigation").style["margin-top"] = "7.5em";
+
+	// calc proportions
+	let menu_element = document.getElementById("p-personal").getElementsByClassName("vector-menu-content-list")[0];
+
+	// remove menu_element padding to get width
+	menu_element.style["padding-left"] = 0;
+	let menu_width = menu_element.offsetWidth;
+	menu_element.style["padding-left"] = 0;
+
+	let left_panel_width = document.getElementById("mw-panel").offsetWidth;
+	let page_width = document.getElementsByTagName("body")[0].offsetWidth;
+
+	let div_error = `
+		<div class="user_decision_tag" style="
+				width: calc(${page_width - menu_width - left_panel_width - 5}px - 1em);
+				height: 120px;
+				left: ${left_panel_width + 10}px;">
+			<h2 style="text-align: center; overflow-y: auto">Required data is either missing or incorrect in the Wikireader</h2>
+			Try changing the data in the extension popup and reloading the page.
+		</div>
+	`;
+
+	let check_existence = document.getElementsByClassName("user_decision_tag")[0];
+	if (check_existence)
+		check_existence.remove();
+	let xml_site_wiki_tag = document.getElementsByTagName("body")[0];
+
+	xml_site_wiki_tag.innerHTML = div_error + xml_site_wiki_tag.innerHTML;
 }
 
 function page_suggest_hover() {
@@ -427,9 +428,10 @@ function recommender_system() {
 		$.ajax({
 			type: "POST",
 			url: "https://suggestor.cutewiki.charlie.city/ur",
-			data: { uuid: "69c3befa-95d8-4cd7-b04b-8a7b0739a52b" },
+			data: { uuid: un_id.unique_id },
 			success: function(res) {
 				$("#recommender-loading-options").hide();
+
 				let response_arr = JSON.parse(res);
 
 				let possibles = "";
@@ -460,7 +462,6 @@ function recommender_system() {
 				wiki_doc_exist.innerHTML = possibles;
 
 				$(".wiki-page-recommended-option").on("click", function() {
-					console.log("click", $(this).children(".image-title-recommender").children("h4").html());
 					window.location.href = "https://wikipedia.org/wiki/" + $(this).children(".image-title-recommender").children("h4").html();
 				});
 			},

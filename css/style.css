@@ -453,6 +453,10 @@
 	display: inline;
 }
 
+#recommended-id:hover {
+	cursor: pointer;
+}
+
 .wiki-page-recommended-option {
 	margin: 3px 2px 3px 2px;
 	border-radius: 10px;

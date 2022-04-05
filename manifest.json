@@ -1,7 +1,7 @@
 {
 	"name": "Wikiread",
-	"description": "Read wikipedia pages and rank them. New! Now see closely related documents with the new Wikisuggest feature!",
-	"version": "2.2",
+	"description": "Read wikipedia pages and rank them. New! Now see closely related documents with the new Wikisuggest feature, and see recommended pages just for you!",
+	"version": "3.0",
 	"manifest_version": 3,
 	"permissions": ["storage", "tabs"],
 	"background": {
