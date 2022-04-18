@@ -62,13 +62,6 @@ function add_decision_div() {
 
 	xml_site_wiki_tag.innerHTML = div_up_or_down + xml_site_wiki_tag.innerHTML;
 
-	// add click to the buttons
-	let user_buttons = document.getElementsByClassName("user_decision_button");
-
-	for (let add_event = 0; add_event < user_buttons.length; add_event++) {
-		user_buttons[add_event].addEventListener("click", send_response);
-	}
-
 	// create suggestion feature
 	let div_suggestor = `
 		<div id="wiki-page-suggestor">
@@ -190,6 +183,9 @@ function add_decision_div() {
 		$("#open-wiki-recommender").on("click", wiki_recommender_click);
 		$("#recommended-id").on("click", wiki_recommender_click);
 	}
+
+	// add click to the buttons
+	$(".user_decision_button").on("click", send_response);
 
 	document.getElementById("page-suggestor-send").addEventListener("mouseover", page_suggest_hover);
 	document.getElementById("page-suggestor-send").addEventListener("mouseout", page_suggest_unhover);
@@ -359,6 +355,7 @@ function get_wiki_code(a_tag) {
 }
 
 function send_response() {
+	console.log("RESPONSE");
 	// pull the level from the button and send the xml_body
 	let level = this.getAttribute("level");
 	showing_div = 0;
